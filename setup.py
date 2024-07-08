@@ -16,7 +16,12 @@ libfreenect2_module = Extension("_pyfreenect2",
 	include_dirs=[numpy.get_include()],
 	define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")])
 
-setup(name="pyfreenect2",
+setup(
+    name="pyfreenect2",
+    version="0.0.1",
+    description="Python wrapper for libfreenect2",
 	ext_modules=[libfreenect2_module],
 	py_modules=["pyfreenect2"],
-	install_requires=["numpy"])
+    install_requires=["numpy"]
+)
+

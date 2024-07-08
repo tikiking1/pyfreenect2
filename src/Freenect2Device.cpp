@@ -104,7 +104,7 @@ PyObject *py_Freenect2Device_getSerialNumber(PyObject *self, PyObject *args) {
 		return NULL;
 	Freenect2Device *device = (Freenect2Device*) PyCapsule_GetPointer(deviceCapsule, "Freenect2Device");
 	std::string serialNumber = device->getSerialNumber();
-	return PyString_FromString(serialNumber.c_str());
+    return PyUnicode_FromString(serialNumber.c_str()); // Updated here
 }
 PyObject *py_Freenect2Device_getFirmwareVersion(PyObject *self, PyObject *args) {
 	PyObject *deviceCapsule = NULL;
@@ -112,7 +112,7 @@ PyObject *py_Freenect2Device_getFirmwareVersion(PyObject *self, PyObject *args) 
 		return NULL;
 	Freenect2Device *device = (Freenect2Device*) PyCapsule_GetPointer(deviceCapsule, "Freenect2Device");
 	std::string firmwareVersion = device->getFirmwareVersion();
-	return PyString_FromString(firmwareVersion.c_str());
+    return PyUnicode_FromString(firmwareVersion.c_str()); // Updated here
 }
 
 PyObject *py_Freenect2Device_getColorCameraParams(PyObject *self, PyObject *args) {

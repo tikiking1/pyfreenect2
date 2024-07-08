@@ -8,12 +8,12 @@ Freenect2& getGlobalFreenect2() { return freenect2; }
 PyObject *py_numberOfDevices(PyObject *self, PyObject *args) {
 	if(!PyArg_ParseTuple(args, ""))
 		return NULL;
-	return PyInt_FromLong(freenect2.enumerateDevices());
+    return PyLong_FromLong(freenect2.enumerateDevices()); // Updated here
 }
 
 PyObject *py_getDefaultDeviceSerialNumber(PyObject *self, PyObject *args) {
 	if(!PyArg_ParseTuple(args, ""))
 		return NULL;
 	std::string serialNumber = freenect2.getDefaultDeviceSerialNumber();
-	return PyString_FromString(serialNumber.c_str());
+    return PyUnicode_FromString(serialNumber.c_str()); // Updated here
 }
