@@ -1,6 +1,7 @@
 #include "../pyfreenect2.hpp"
 #include <iostream>
 #include "SmartFrame.h"
+#include <numpy/arrayobject.h>
 
 using libfreenect2::Frame;
 
@@ -14,9 +15,9 @@ PyObject *py_Frame_getHeight(PyObject *self, PyObject *args) {
 		return NULL;
 	SPFrame *spFrame = (SPFrame*) PyCapsule_GetPointer(frameCapsule, "Frame");
 	Frame *frame = spFrame->acquire();
-	int height = frame->height;
+    size_t height = frame->height;
 	spFrame->release();
-	return PyInt_FromSize_t(height);
+    return PyLong_FromSize_t(height); // Updated here
 }
 
 PyObject *py_Frame_getWidth(PyObject *self, PyObject *args) {
@@ -25,9 +26,9 @@ PyObject *py_Frame_getWidth(PyObject *self, PyObject *args) {
 		return NULL;
 	SPFrame *spFrame = (SPFrame*) PyCapsule_GetPointer(frameCapsule, "Frame");
 	Frame *frame = spFrame->acquire();
-	int width = frame->width;
+    size_t width = frame->width;
 	spFrame->release();
-	return PyInt_FromSize_t(width);
+    return PyLong_FromSize_t(width); // Updated here
 }
 
 PyObject *py_Frame_getData(PyObject *self, PyObject *args) {
@@ -38,7 +39,7 @@ PyObject *py_Frame_getData(PyObject *self, PyObject *args) {
 	Frame *frame = spFrame->acquire();
 
 	// frames are apparently 4 channel (4 bytes per pixel)
-	npy_intp dims[] = {frame->height, frame->width, 4 };
+    npy_intp dims[] = {static_cast<npy_intp>(frame->height), static_cast<npy_intp>(frame->width), 4}; // Updated here
 
 	// this should be elsewhere, however, fails without it.
 	import_array();
@@ -59,7 +60,7 @@ PyObject *py_Frame_getDepthData(PyObject *self, PyObject *args){
 	SPFrame *spFrame = (SPFrame*) PyCapsule_GetPointer(frameCapsule, "Frame");
 	Frame *frame = spFrame->acquire();
 
-	npy_intp dims[] = {frame->height, frame->width, 4};
+    npy_intp dims[] = {static_cast<npy_intp>(frame->height), static_cast<npy_intp>(frame->width), 4}; // Updated here
 
 	import_array();
 

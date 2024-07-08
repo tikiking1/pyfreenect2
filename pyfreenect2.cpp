@@ -1,6 +1,8 @@
 #include "pyfreenect2.hpp"
 #include <iostream>
+#include <Python.h>
 
+// Define methods
 static PyMethodDef pyfreenect2Methods[] = {
 	// Freenect2
 	{ "numberOfDevices", py_numberOfDevices, METH_VARARGS, NULL },
@@ -36,12 +38,18 @@ static PyMethodDef pyfreenect2Methods[] = {
 	{ NULL, NULL, 0, NULL}
 };
 
-PyMODINIT_FUNC init_pyfreenect2() {
+// Define module
+static struct PyModuleDef pyfreenect2module = {
+    PyModuleDef_HEAD_INIT,
+    "_pyfreenect2",
+    NULL,
+    -1,
+    pyfreenect2Methods
+};
 
-  /// enables debug of libfreenect2
-  ///libfreenect2::setGlobalLogger(libfreenect2::createConsoleLogger(libfreenect2::Logger::Debug));
-
-  import_array();
-  Py_InitModule("_pyfreenect2", pyfreenect2Methods);
-  import_array();
+// Initialize module
+PyMODINIT_FUNC PyInit__pyfreenect2(void) {
+    import_array(); // Initialize numpy C-API
+    return PyModule_Create(&pyfreenect2module);
 }
+
